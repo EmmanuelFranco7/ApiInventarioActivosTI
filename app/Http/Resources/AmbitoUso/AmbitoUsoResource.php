@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Resources\Tecnologia;
+namespace App\Http\Resources\AmbitoUso;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TecnologiaResource extends JsonResource
+class AmbitoUsoResource extends JsonResource
 {
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'nombre_tecnologia' => $this->nombre_tecnologia,
-            'version' => $this->version,
+            'nombre' => $this->nombre,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

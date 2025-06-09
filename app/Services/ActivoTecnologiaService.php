@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Repositories\TecnologiaRepository;
+use App\Repositories\ActivoTecnologiaRepository;
 use App\DTO\GetAllParams;
 
-class TecnologiaService
+class ActivoTecnologiaService
 {
-    public function __construct(private TecnologiaRepository $repository) {}
+    public function __construct(private ActivoTecnologiaRepository $repository) {}
 
     public function getAll(GetAllParams $params)
     {

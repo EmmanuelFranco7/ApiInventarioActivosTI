@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tecnologia extends Model
 {
+    // Se asume que TABLE_TECNOLOGIAS está definida como constante en algún archivo de configuración
     protected $table = TABLE_TECNOLOGIAS;
 
     protected $fillable = [
@@ -16,17 +18,27 @@ class Tecnologia extends Model
         'updated_at',
     ];
 
+    // Ocultar ID en las respuestas JSON si lo deseas
+    protected $hidden = ['id'];
+
     protected static function boot()
     {
         parent::boot();
-        static::creating(fn($model) => $model->created_at = now());
-        static::updating(fn($model) => $model->updated_at = now());
+
+        static::creating(function ($model) {
+            $model->created_at = now();
+        });
+
+        static::updating(function ($model) {
+            $model->updated_at = now();
+        });
     }
 
-    public function activosTecnologia()
+    /**
+     * Relación con ActivoTecnologia
+     */
+    public function activosTecnologia(): HasMany
     {
         return $this->hasMany(ActivoTecnologia::class, 'tecnologia_id');
     }
-
-    protected $hidden = ['id'];
 }

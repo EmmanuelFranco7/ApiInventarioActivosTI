@@ -16,16 +16,20 @@ class UpdateTecnologiaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'string', 'max:100'],
+            'nombre_tecnologia' => ['required', 'string', 'max:100'],
+            'version' => ['required', 'string', 'max:50'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'nombre.required' => 'El nombre es obligatorio.',
-            'nombre.string' => 'Debe ser una cadena de texto.',
-            'nombre.max' => 'Máximo 100 caracteres.',
+            'nombre_tecnologia.required' => 'El campo nombre_tecnologia es obligatorio.',
+            'nombre_tecnologia.string' => 'El nombre_tecnologia debe ser una cadena de texto.',
+            'nombre_tecnologia.max' => 'El nombre_tecnologia no puede superar los 100 caracteres.',
+            'version.required' => 'El campo version es obligatorio.',
+            'version.string' => 'La version debe ser una cadena de texto.',
+            'version.max' => 'La version no puede superar los 50 caracteres.',
         ];
     }
 
@@ -33,7 +37,7 @@ class UpdateTecnologiaRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'errors' => $validator->errors(),
-            'message' => 'Error al validar los datos.'
+            'message' => 'Error al procesar el formulario. Por favor corrija los errores indicados.'
         ], 422));
     }
 }

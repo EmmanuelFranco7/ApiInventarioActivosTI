@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Request\ActivoArchivo;
+namespace App\Http\Request\ActivoTecnologia;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateActivoArchivoRequest extends FormRequest
+class UpdateActivoTecnologiaRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,11 +17,7 @@ class UpdateActivoArchivoRequest extends FormRequest
     {
         return [
             'activo_informacion_id' => ['required', 'integer', 'exists:activos_informacion,id'],
-            'tipo' => ['required', 'integer'], // Validar contra catálogo si aplica
-            'directorio' => ['nullable', 'string', 'max:512'],
-            'url' => ['nullable', 'url', 'max:255'],
-            'descripcion' => ['nullable', 'string'],
-            'observaciones' => ['nullable', 'string'],
+            'tecnologia_id' => ['required', 'integer', 'exists:tecnologias,id'],
         ];
     }
 
@@ -29,12 +25,11 @@ class UpdateActivoArchivoRequest extends FormRequest
     {
         return [
             'activo_informacion_id.required' => 'El campo activo_informacion_id es obligatorio.',
+            'activo_informacion_id.integer' => 'El campo activo_informacion_id debe ser un número entero.',
             'activo_informacion_id.exists' => 'El activo_informacion_id debe existir en la tabla activos_informacion.',
-            'tipo.required' => 'El campo tipo es obligatorio.',
-            'tipo.integer' => 'El tipo debe ser un valor numérico.',
-            'url.url' => 'El campo url debe ser una URL válida.',
-            'directorio.max' => 'El directorio no puede superar los 512 caracteres.',
-            'url.max' => 'La URL no puede superar los 255 caracteres.',
+            'tecnologia_id.required' => 'El campo tecnologia_id es obligatorio.',
+            'tecnologia_id.integer' => 'El campo tecnologia_id debe ser un número entero.',
+            'tecnologia_id.exists' => 'El tecnologia_id debe existir en la tabla tecnologias.',
         ];
     }
 
@@ -45,5 +40,4 @@ class UpdateActivoArchivoRequest extends FormRequest
             'message' => 'Error al procesar el formulario. Por favor corrija los errores indicados.'
         ], 422));
     }
-    
 }

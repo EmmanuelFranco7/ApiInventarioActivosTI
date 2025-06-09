@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Request\AmbitoUso\StoreAmbitoUsoRequest;
+use App\Http\Request\AmbitoUso\UpdateAmbitoUsoRequest;
+use App\Services\AmbitoUsoService;
 use Illuminate\Http\JsonResponse;
-use App\Services\TecnologiaService;
+use Illuminate\Http\Request;
+use App\Http\Resources\AmbitoUso\AmbitoUsoResource;
+use App\Http\Resources\AmbitoUso\AmbitoUsoResourceCollection;
 use App\DTO\GetAllParams;
-use App\Http\Resources\Tecnologia\TecnologiaResource;
-use App\Http\Resources\Tecnologia\TecnologiaResourceCollection;
-use App\Http\Request\Tecnologia\StoreTecnologiaRequest;
-use App\Http\Request\Tecnologia\UpdateTecnologiaRequest;
 
-class TecnologiaController extends Controller
+class AmbitoUsoController extends Controller
 {
-    public function __construct(private TecnologiaService $service) {}
+    public function __construct(private AmbitoUsoService $service) {}
 
     public function index(Request $request): JsonResponse
     {
@@ -27,50 +27,50 @@ class TecnologiaController extends Controller
             fields: $request->input('fields', ['*'])
         );
 
-        $result = $this->service->getAll($params);
-        return response()->json(new TecnologiaResourceCollection($result));
+        $registros = new AmbitoUsoResourceCollection($this->service->getAll($params));
+        return response()->json($registros, 200);
     }
 
-    public function store(StoreTecnologiaRequest $request): JsonResponse
+    public function store(StoreAmbitoUsoRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $created = $this->service->create($data);
+        $registro = $this->service->create($data);
 
         return response()->json([
-            'message' => 'Registro creado con éxito',
-            'data' => new TecnologiaResource($created)
+            'message' => 'Registro guardado con éxito',
+            'data' => new AmbitoUsoResource($registro)
         ], 201);
     }
 
     public function show(string $id): JsonResponse
     {
-        $record = $this->service->getById($id);
-        if (!$record) {
+        $registro = $this->service->getById($id);
+        if (!$registro) {
             return response()->json(['message' => 'Registro no encontrado'], 404);
         }
 
-        return response()->json(new TecnologiaResource($record));
+        return response()->json(new AmbitoUsoResource($registro));
     }
 
-    public function update(UpdateTecnologiaRequest $request, string $id): JsonResponse
+    public function update(UpdateAmbitoUsoRequest $request, string $id): JsonResponse
     {
         $data = $request->validated();
-        $updated = $this->service->update($id, $data);
+        $registro = $this->service->update($id, $data);
 
-        if (!$updated) {
+        if (!$registro) {
             return response()->json(['message' => 'Registro no encontrado'], 404);
         }
 
         return response()->json([
             'message' => 'Registro actualizado con éxito',
-            'data' => new TecnologiaResource($updated)
+            'data' => new AmbitoUsoResource($registro)
         ]);
     }
 
     public function destroy(string $id): JsonResponse
     {
-        $deleted = $this->service->delete($id);
-        if (!$deleted) {
+        $registro = $this->service->delete($id);
+        if (!$registro) {
             return response()->json(['message' => 'Registro no encontrado'], 404);
         }
 
@@ -81,8 +81,9 @@ class TecnologiaController extends Controller
     {
         return [
             'id' => $request->query('id'),
-            'nombre_tecnologia' => $request->query('nombre_tecnologia'),
-            'version' => $request->query('version'),
+            'nombre' => $request->query('nombre'),
+            'created_at' => $request->query('created_at'),
+            'updated_at' => $request->query('updated_at'),
         ];
     }
 }

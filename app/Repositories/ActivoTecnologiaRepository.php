@@ -2,15 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\Tecnologia;
+use App\Models\ActivoTecnologia;
 use App\DTO\GetAllParams;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class TecnologiaRepository
+class ActivoTecnologiaRepository
 {
-    public function __construct(private Tecnologia $model) {}
+    public function __construct(private ActivoTecnologia $model)
+    {}
 
     public function getAll(GetAllParams $params): LengthAwarePaginator|Collection
     {
@@ -47,17 +48,17 @@ class TecnologiaRepository
         return $this->model->count();
     }
 
-    public function find(int $id, array $fields = ['*']): ?Tecnologia
+    public function find(int $id, array $fields = ['*']): ?ActivoTecnologia
     {
         return $this->model->select($fields)->find($id);
     }
 
-    public function create(array $data): Tecnologia
+    public function create(array $data): ActivoTecnologia
     {
         return $this->model->create($data);
     }
 
-    public function update(int $id, array $data): ?Tecnologia
+    public function update(int $id, array $data): ?ActivoTecnologia
     {
         $entity = $this->model->find($id);
         if ($entity) {
@@ -66,7 +67,7 @@ class TecnologiaRepository
         return $entity;
     }
 
-    public function delete(int $id): ?Tecnologia
+    public function delete(int $id): ?ActivoTecnologia
     {
         $entity = $this->model->find($id);
         if ($entity) {

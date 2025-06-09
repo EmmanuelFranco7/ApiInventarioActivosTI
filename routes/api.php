@@ -20,6 +20,7 @@ use App\Http\Controllers\TipoInterfazController;
 use App\Http\Controllers\TipoLicenciaController;
 use App\Http\Controllers\TipoServidorWebController;
 use App\Http\Controllers\ActivosOportunidadesMejoraController;
+use App\Http\Controllers\ActivoTecnologiaController;
 
 
 
@@ -176,6 +177,15 @@ Route::prefix('disponibilidades_sla')->group(function () {
     Route::post('/', [ActivoArchivoController::class, 'store'])->name('activo_archivos.store');
     Route::put('/{id}', [ActivoArchivoController::class, 'update'])->name('activo_archivos.update');
     Route::delete('/{id}', [ActivoArchivoController::class, 'destroy'])->name('activo_archivos.destroy');
+});
+
+
+Route::prefix('activo_tecnologias')->group(function () {
+    Route::get('/', [ActivoTecnologiaController::class, 'index'])->name('activo_tecnologias.index');
+    Route::get('/{id}', [ActivoTecnologiaController::class, 'show'])->name('activo_tecnologias.show');
+    Route::post('/', [ActivoTecnologiaController::class, 'store'])->name('activo_tecnologias.store');
+    Route::put('/{id}', [ActivoTecnologiaController::class, 'update'])->name('activo_tecnologias.update');
+    Route::delete('/{id}', [ActivoTecnologiaController::class, 'destroy'])->name('activo_tecnologias.destroy');
 });
 
 
